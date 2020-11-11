@@ -78,4 +78,4 @@ For a list of all available metrics, see the dumps below (the format is the same
 
 ## Grafana Dashboard
 
-The dashboard is now also published on [Grafana](https://grafana.com/grafana/dashboards/12579).
+The dashboard is now also published on [Grafana](https://grafana.com/grafana/dashboards/13377).
