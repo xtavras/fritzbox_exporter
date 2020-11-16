@@ -20,7 +20,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "7.3.1"
+      "version": "7.3.2"
     },
     {
       "type": "panel",
@@ -39,6 +39,12 @@
       "id": "stat",
       "name": "Stat",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
     }
   ],
   "annotations": {
@@ -56,7 +62,7 @@
   },
   "description": "Monitor FRITZ!Box routers using prometheus and fritzbox_exporter",
   "editable": true,
-  "gnetId": 12579,
+  "gnetId": 13377,
   "graphTooltip": 2,
   "id": null,
   "links": [],
@@ -104,7 +110,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "expr": "gateway_device_modelname",
@@ -119,6 +125,114 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Version",
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "decimals": 1,
+          "mappings": [
+            {
+              "id": 0,
+              "op": "=",
+              "text": "N/A",
+              "type": 1,
+              "value": "null"
+            }
+          ],
+          "nullValueMode": "connected",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "dtdurations"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": 21,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.2",
+      "targets": [
+        {
+          "dsType": "prometheus",
+          "expr": "gateway_uptime_seconds",
+          "format": "table",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            }
+          ],
+          "interval": "",
+          "legendFormat": "",
+          "measurement": "fritzbox_value",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type_instance",
+              "operator": "=",
+              "value": "uptime"
+            }
+          ],
+          "target": ""
+        }
+      ],
+      "timeFrom": null,
+      "title": "Fritzbox Uptime",
       "type": "stat"
     },
     {
@@ -161,8 +275,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 6,
+        "w": 3,
+        "x": 9,
         "y": 0
       },
       "id": 13,
@@ -183,7 +297,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -293,7 +407,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -340,7 +454,6 @@
         }
       ],
       "title": "Current Download",
-      "transparent": true,
       "type": "gauge"
     },
     {
@@ -406,7 +519,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -452,7 +565,6 @@
         }
       ],
       "title": "Current Upload",
-      "transparent": true,
       "type": "gauge"
     },
     {
@@ -530,7 +642,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -578,111 +690,129 @@
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
       "datasource": "${DS_PROMETHEUS}",
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {},
-          "decimals": 1,
-          "mappings": [
-            {
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
-            }
-          ],
-          "nullValueMode": "connected",
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
+                "color": "blue",
                 "value": null
               },
               {
-                "color": "rgba(50, 172, 45, 0.97)",
-                "value": 1
+                "color": "red",
+                "value": 80
               }
             ]
-          },
-          "unit": "dtdurations"
+          }
         },
         "overrides": []
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
+        "w": 3,
         "x": 6,
         "y": 3
       },
-      "id": 21,
-      "interval": null,
-      "links": [],
-      "maxDataPoints": 100,
+      "id": 30,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^5 GHz$/",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.2",
+      "targets": [
+        {
+          "expr": "gateway_wlan2_current_connections",
+          "interval": "",
+          "legendFormat": "5 GHz",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "5 GHz Connections",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 3
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^2\\.4 GHz$/",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
-          "dsType": "prometheus",
-          "expr": "gateway_uptime_seconds",
-          "format": "table",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            }
-          ],
+          "expr": "gateway_wlan_current_connections",
           "interval": "",
-          "legendFormat": "",
-          "measurement": "fritzbox_value",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "type_instance",
-              "operator": "=",
-              "value": "uptime"
-            }
-          ],
-          "target": ""
+          "legendFormat": "2.4 GHz",
+          "refId": "A"
+        },
+        {
+          "expr": "gateway_wlan2_current_connections",
+          "interval": "",
+          "legendFormat": "5 GHz",
+          "refId": "B"
+        },
+        {
+          "expr": "gateway_wlan_current_connections+gateway_wlan2_current_connections",
+          "interval": "",
+          "legendFormat": "Total",
+          "refId": "C"
         }
       ],
       "timeFrom": null,
-      "title": "Fritzbox Uptime",
+      "timeShift": null,
+      "title": "2,4 GHz Connections",
       "type": "stat"
     },
     {
@@ -760,7 +890,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -858,14 +988,14 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "sum"
+            "delta"
           ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -959,14 +1089,14 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "sum"
+            "delta"
           ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1009,196 +1139,212 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "align": "center",
+            "displayMode": "color-text",
+            "filterable": true
           },
           "mappings": [
             {
               "from": "",
               "id": 1,
-              "text": "",
+              "text": "active",
               "to": "",
               "type": 1,
-              "value": ""
+              "value": "1"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "inactive",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 3,
+              "text": "LAN",
+              "to": "",
+              "type": 1,
+              "value": "ethernet"
+            },
+            {
+              "from": "",
+              "id": 4,
+              "text": "WLAN",
+              "to": "",
+              "type": 1,
+              "value": "802"
             }
           ],
+          "noValue": "-",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "super-light-blue",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
           "unit": "none"
         },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 0,
-        "y": 6
-      },
-      "hiddenSeries": false,
-      "id": 26,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.3.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "gateway_host_active",
-          "interval": "",
-          "legendFormat": "{{hostname}} ({{macaddress}})",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Active Hosts",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {},
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
               {
-                "color": "blue",
-                "value": null
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 1
+                    }
+                  ]
+                }
               },
               {
-                "color": "red",
-                "value": 80
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Connection Type"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 134
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "yellow",
+                      "value": null
+                    },
+                    {
+                      "color": "rgb(47, 255, 44)",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hostname"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 253
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 140
               }
             ]
           }
-        },
-        "overrides": []
+        ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 9,
+        "h": 17,
+        "w": 12,
+        "x": 0,
         "y": 6
       },
-      "id": 30,
+      "id": 32,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "/^5 GHz$/",
-          "values": false
-        },
-        "textMode": "value_and_name"
+        "frameIndex": 25,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Hostname"
+          }
+        ]
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
-          "expr": "gateway_wlan_current_connections",
+          "expr": "gateway_host_active",
+          "format": "table",
+          "instant": true,
           "interval": "",
-          "legendFormat": "2.4 GHz",
+          "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
-        },
-        {
-          "expr": "gateway_wlan2_current_connections",
-          "interval": "",
-          "legendFormat": "5 GHz",
-          "refId": "B"
-        },
-        {
-          "expr": "gateway_wlan_current_connections+gateway_wlan2_current_connections",
-          "interval": "",
-          "legendFormat": "Total",
-          "refId": "C"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Connections",
-      "type": "stat"
+      "title": "Network Devices",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "hostname",
+                "interfacetype",
+                "ipaddress",
+                "macaddress",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Value": 0,
+              "hostname": 1,
+              "interfacetype": 2,
+              "ipaddress": 3,
+              "macaddress": 4
+            },
+            "renameByName": {
+              "Value": "Status",
+              "hostname": "Hostname",
+              "interfacetype": "Connection Type",
+              "ipaddress": "IP",
+              "macaddress": "MAC"
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "cacheTimeout": null,
@@ -1252,14 +1398,14 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "range"
+            "delta"
           ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1351,17 +1497,17 @@
         "colorMode": "value",
         "graphMode": "area",
         "justifyMode": "auto",
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "range"
+            "delta"
           ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1402,75 +1548,6 @@
       ],
       "timeFrom": "1d",
       "title": "Last 24h Upload",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {},
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 9,
-        "y": 10
-      },
-      "id": 24,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^2\\.4 GHz$/",
-          "values": false
-        },
-        "textMode": "value_and_name"
-      },
-      "pluginVersion": "7.3.1",
-      "targets": [
-        {
-          "expr": "gateway_wlan_current_connections",
-          "interval": "",
-          "legendFormat": "2.4 GHz",
-          "refId": "A"
-        },
-        {
-          "expr": "gateway_wlan2_current_connections",
-          "interval": "",
-          "legendFormat": "5 GHz",
-          "refId": "B"
-        },
-        {
-          "expr": "gateway_wlan_current_connections+gateway_wlan2_current_connections",
-          "interval": "",
-          "legendFormat": "Total",
-          "refId": "C"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Connections",
       "type": "stat"
     },
     {
@@ -1524,7 +1601,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1660,7 +1737,6 @@
         "sort": 0,
         "value_type": "cumulative"
       },
-      "transparent": true,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -1671,6 +1747,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:175",
           "decimals": null,
           "format": "bps",
           "label": "",
@@ -1680,6 +1757,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:176",
           "format": "short",
           "logBase": 1,
           "max": null,
@@ -1692,231 +1770,6 @@
         "alignLevel": null
       },
       "zerofill": true
-    },
-    {
-      "aliasColors": {
-        "Download": "#1f78c1",
-        "Upload": "#e24d42",
-        "fritzbox_value.non_negative_derivative": "#ba43a9",
-        "fritzbox_value.non_negative_difference": "#e24d42"
-      },
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 14
-      },
-      "hiddenSeries": false,
-      "hideTimeOverride": false,
-      "id": 2,
-      "interval": "10s",
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 1,
-      "links": [],
-      "maxDataPoints": 10,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": false
-      },
-      "percentage": false,
-      "pluginVersion": "7.3.1",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Download",
-          "dsType": "prometheus",
-          "expr": "gateway_wan_bytes_received",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "24h"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "Download",
-          "measurement": "fritzbox_value",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT non_negative_difference(last(cumulative_sum)) FROM (\nSELECT cumulative_sum(non_negative_difference(\"value\")) FROM \"fritzbox_value\" WHERE (\"type_instance\" = 'totalbytesreceived') AND $timeFilter\n) WHERE $timeFilter GROUP BY time(1d) tz('Europe/Berlin')",
-          "rawQuery": true,
-          "refId": "F",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "type_instance",
-              "operator": "=",
-              "value": "totalbytesreceived"
-            }
-          ],
-          "target": ""
-        },
-        {
-          "alias": "Upload",
-          "dsType": "prometheus",
-          "expr": "gateway_wan_bytes_sent",
-          "groupBy": [
-            {
-              "params": [
-                "24h"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Upload",
-          "measurement": "fritzbox_value",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT non_negative_difference(last(cumulative_sum)) FROM (\nSELECT cumulative_sum(non_negative_difference(\"value\")) FROM \"fritzbox_value\" WHERE (\"type_instance\" = 'totalbytessent') AND $timeFilter \n) WHERE $timeFilter GROUP BY time(1d) tz('Europe/Berlin')",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "type_instance",
-              "operator": "=",
-              "value": "totalbytesreceived"
-            }
-          ],
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": "24h",
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Daily Traffic",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "decbytes",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "decbytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     },
     {
       "aliasColors": {
@@ -1969,7 +1822,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.3.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2105,7 +1958,6 @@
         "sort": 0,
         "value_type": "cumulative"
       },
-      "transparent": true,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -2116,6 +1968,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:260",
           "decimals": null,
           "format": "bps",
           "label": "",
@@ -2125,6 +1978,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:261",
           "format": "short",
           "logBase": 1,
           "max": null,
@@ -2139,7 +1993,7 @@
       "zerofill": true
     }
   ],
-  "refresh": "10s",
+  "refresh": "30s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -2147,7 +2001,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -2177,6 +2031,6 @@
   },
   "timezone": "",
   "title": "FRITZ!Box Status",
-  "uid": "000000013",
-  "version": 11
+  "uid": "1",
+  "version": 2
 }
