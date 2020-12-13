@@ -181,7 +181,13 @@ func (collector *Collector) addGatewayGeneric() {
 func initDescAndType(metrics []*metric.Metric) {
 
 	for _, metric := range metrics {
-		metric.Desc = prometheus.NewDesc(metric.PromDesc.FqName, metric.PromDesc.Help, metric.PromDesc.VarLabels, metric.PromDesc.FixedLabels)
+
+		labels := make([]string, len(metric.PromDesc.VarLabels))
+		for i, l := range metric.PromDesc.VarLabels {
+			labels[i] = strings.ToLower(l)
+		}
+
+		metric.Desc = prometheus.NewDesc(metric.PromDesc.FqName, metric.PromDesc.Help, labels, metric.PromDesc.FixedLabels)
 		metric.Type = getValueType(metric.PromType)
 	}
 }
