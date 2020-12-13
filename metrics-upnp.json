@@ -1,0 +1,255 @@
+{
+	"metrics": [
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetTotalPacketsReceived",
+			"resultKey": "TotalPacketsReceived",
+			"promDesc": {
+				"fqName": "gateway_wan_packets_received",
+				"help": "packets received on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetTotalPacketsSent",
+			"resultKey": "TotalPacketsSent",
+			"promDesc": {
+				"fqName": "gateway_wan_packets_sent",
+				"help": "packets sent on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetAddonInfos",
+			"resultKey": "TotalBytesReceived",
+			"promDesc": {
+				"fqName": "gateway_wan_bytes_received",
+				"help": "bytes received on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetAddonInfos",
+			"resultKey": "TotalBytesSent",
+			"promDesc": {
+				"fqName": "gateway_wan_bytes_sent",
+				"help": "bytes sent on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetAddonInfos",
+			"resultKey": "ByteSendRate",
+			"promDesc": {
+				"fqName": "gateway_wan_bytes_send_rate",
+				"help": "byte send rate on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetAddonInfos",
+			"resultKey": "ByteReceiveRate",
+			"promDesc": {
+				"fqName": "gateway_wan_bytes_receive_rate",
+				"help": "byte receive rate on gateway WAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetCommonLinkProperties",
+			"resultKey": "Layer1UpstreamMaxBitRate",
+			"promDesc": {
+				"fqName": "gateway_wan_layer1_upstream_max_bitrate",
+				"help": "Layer1 upstream max bitrate",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetCommonLinkProperties",
+			"resultKey": "Layer1DownstreamMaxBitRate",
+			"promDesc": {
+				"fqName": "gateway_wan_layer1_downstream_max_bitrate",
+				"help": "Layer1 downstream max bitrate",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
+			"action": "GetCommonLinkProperties",
+			"resultKey": "PhysicalLinkStatus",
+			"okValue": "Up",
+			"promDesc": {
+				"fqName": "gateway_wan_layer1_link_status",
+				"help": "Status of physical link (Up = 1)",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANIPConnection:1",
+			"action": "GetStatusInfo",
+			"resultKey": "ConnectionStatus",
+			"okValue": "Connected",
+			"promDesc": {
+				"fqName": "gateway_wan_connection_status",
+				"help": "WAN connection status (Connected = 1)",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:schemas-upnp-org:service:WANIPConnection:1",
+			"action": "GetStatusInfo",
+			"resultKey": "Uptime",
+			"promDesc": {
+				"fqName": "gateway_wan_connection_uptime_seconds",
+				"help": "WAN connection uptime",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:WLANConfiguration:1",
+			"action": "GetTotalAssociations",
+			"resultKey": "TotalAssociations",
+			"promDesc": {
+				"fqName": "gateway_wlan_current_connections",
+				"help": "current WLAN connections",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:WLANConfiguration:2",
+			"action": "GetTotalAssociations",
+			"resultKey": "TotalAssociations",
+			"promDesc": {
+				"fqName": "gateway_wlan2_current_connections",
+				"help": "current WLAN2 connections",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:DeviceInfo:1",
+			"action": "GetInfo",
+			"resultKey": "UpTime",
+			"promDesc": {
+				"fqName": "gateway_uptime_seconds",
+				"help": "gateway uptime",
+				"varLabels": [
+					"gateway",
+					"Description"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:DeviceInfo:1",
+			"action": "GetInfo",
+			"resultKey": "ModelName",
+			"promDesc": {
+				"fqName": "gateway_device_modelname",
+				"help": "gateway device model name",
+				"varLabels": [
+					"gateway",
+					"Description",
+					"ModelName",
+					"ProductClass",
+					"SoftwareVersion",
+					"HardwareVersion"
+				]
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:LANEthernetInterfaceConfig:1",
+			"action": "GetStatistics",
+			"resultKey": "Stats.BytesSent",
+			"promDesc": {
+				"fqName": "gateway_lan_bytes_sent",
+				"help": "bytes sent on gateway LAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:LANEthernetInterfaceConfig:1",
+			"action": "GetStatistics",
+			"resultKey": "Stats.BytesReceived",
+			"promDesc": {
+				"fqName": "gateway_lan_bytes_received",
+				"help": "bytes received on gateway LAN interface",
+				"varLabels": [
+					"gateway"
+				]
+			},
+			"promType": "CounterValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:Hosts:1",
+			"action": "GetGenericHostEntry",
+			"actionArgument": {
+				"name": "NewIndex",
+				"isIndex": true,
+				"providerAction": "GetHostNumberOfEntries",
+				"value": "HostNumberOfEntries"
+			},
+			"resultKey": "Active",
+			"promDesc": {
+				"fqName": "gateway_host_active",
+				"help": "is host currently active",
+				"varLabels": [
+					"gateway",
+					"IPAddress",
+					"MACAddress",
+					"InterfaceType",
+					"HostName"
+				]
+			},
+			"promType": "GaugeValue"
+		}
+	]
+}

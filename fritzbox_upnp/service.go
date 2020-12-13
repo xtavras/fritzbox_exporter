@@ -16,17 +16,17 @@ package fritzbox_upnp
 // limitations under the License.
 
 import (
+	"bytes"
+	"crypto/md5"
+	"crypto/rand"
+	"crypto/tls"
 	"encoding/xml"
 	"errors"
-	"bytes"
 	"fmt"
 	"io"
 	"net/http"
-	"crypto/tls"
 	"strconv"
 	"strings"
-	"crypto/md5"
-	"crypto/rand"
 )
 
 // curl http://fritz.box:49000/igddesc.xml
@@ -40,8 +40,7 @@ const text_xml = `text/xml; charset="utf-8"`
 
 var ErrInvalidSOAPResponse = errors.New("invalid SOAP response")
 
-// Root of the UPNP tree
-type Root struct {
+type FritzBoxAPI struct {
 	BaseUrl  string
 	Username string
 	Password string
@@ -51,7 +50,7 @@ type Root struct {
 
 // An UPNP Device
 type Device struct {
-	root *Root
+	root *FritzBoxAPI
 
 	DeviceType       string `xml:"deviceType"`
 	FriendlyName     string `xml:"friendlyName"`
@@ -63,8 +62,8 @@ type Device struct {
 	ModelUrl         string `xml:"modelURL"`
 	UDN              string `xml:"UDN"`
 
-	Services []*Service `xml:"serviceList>service"` // Service of the device
-	Devices  []*Device  `xml:"deviceList>device"`   // Sub-Devices of the device
+	Services   []*Service `xml:"serviceList>service"`
+	SubDevices []*Device  `xml:"deviceList>device"`
 
 	PresentationUrl string `xml:"presentationURL"`
 }
@@ -99,33 +98,32 @@ type Action struct {
 
 // An Inüut Argument to pass to an action
 type ActionArgument struct {
-	Name		string
-	Value		interface{}
+	Name  string
+	Value interface{}
 }
 
 // structs to unmarshal SOAP faults
 type SoapEnvelope struct {
-	XMLName	xml.Name			`xml:"http://schemas.xmlsoap.org/soap/envelope/ Envelope"`
-	Body	SoapBody
+	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Envelope"`
+	Body    SoapBody
 }
 type SoapBody struct {
-	XMLName	xml.Name			`xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
-	Fault	SoapFault
+	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
+	Fault   SoapFault
 }
 type SoapFault struct {
-	XMLName	xml.Name			`xml:"http://schemas.xmlsoap.org/soap/envelope/ Fault"`
-	FaultCode	string			`xml:"faultcode"`
-	FaultString	string			`xml:"faultstring"`
-	Detail		FaultDetail		`xml:"detail"`
+	XMLName     xml.Name    `xml:"http://schemas.xmlsoap.org/soap/envelope/ Fault"`
+	FaultCode   string      `xml:"faultcode"`
+	FaultString string      `xml:"faultstring"`
+	Detail      FaultDetail `xml:"detail"`
 }
 type FaultDetail struct {
-	UpnpError	UpnpError		`xml:"UPnPError"`
+	UpnpError UpnpError `xml:"UPnPError"`
 }
 type UpnpError struct {
-	ErrorCode			int		`xml:"errorCode"`
-	ErrorDescription	string	`xml:"errorDescription"`
+	ErrorCode        int    `xml:"errorCode"`
+	ErrorDescription string `xml:"errorDescription"`
 }
-
 
 // Returns if the action seems to be a query for information.
 // This is determined by checking if the action has no input arguments and at least one output argument.
@@ -161,108 +159,9 @@ type StateVariable struct {
 // The type of the value is string, uint64 or bool depending of the DataType of the variable.
 type Result map[string]interface{}
 
-// load the whole tree
-func (r *Root) load() error {
-	igddesc, err := http.Get(
-		fmt.Sprintf("%s/igddesc.xml", r.BaseUrl),
-	)
-
-	if err != nil {
-		return err
-	}
-
-	defer igddesc.Body.Close()
-	
-	dec := xml.NewDecoder(igddesc.Body)
-
-	err = dec.Decode(r)
-	if err != nil {
-		return err
-	}
-
-	r.Services = make(map[string]*Service)
-	return r.Device.fillServices(r)
-}
-
-func (r *Root) loadTr64() error {
-	igddesc, err := http.Get(
-		fmt.Sprintf("%s/tr64desc.xml", r.BaseUrl),
-	)
-
-	if err != nil {
-		return err
-	}
-
-	defer igddesc.Body.Close()
-
-	dec := xml.NewDecoder(igddesc.Body)
-
-	err = dec.Decode(r)
-	if err != nil {
-		return err
-	}
-
-	r.Services = make(map[string]*Service)
-	return r.Device.fillServices(r)
-}
-
-// load all service descriptions
-func (d *Device) fillServices(r *Root) error {
-	d.root = r
-
-	for _, s := range d.Services {
-		s.Device = d
-
-		response, err := http.Get(r.BaseUrl + s.SCPDUrl)
-		if err != nil {
-			return err
-		}
-
-		defer response.Body.Close()
-
-		var scpd scpdRoot
-
-		dec := xml.NewDecoder(response.Body)
-		err = dec.Decode(&scpd)
-		if err != nil {
-			return err
-		}
-
-		s.Actions = make(map[string]*Action)
-		for _, a := range scpd.Actions {
-			s.Actions[a.Name] = a
-		}
-		s.StateVariables = scpd.StateVariables
-
-		for _, a := range s.Actions {
-			a.service = s
-			a.ArgumentMap = make(map[string]*Argument)
-
-			for _, arg := range a.Arguments {
-				for _, svar := range s.StateVariables {
-					if arg.RelatedStateVariable == svar.Name {
-						arg.StateVariable = svar
-					}
-				}
-
-				a.ArgumentMap[arg.Name] = arg
-			}
-		}
-
-		r.Services[s.ServiceType] = s
-	}
-	for _, d2 := range d.Devices {
-		err := d2.fillServices(r)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 const SoapActionXML = `<?xml version="1.0" encoding="utf-8"?>` +
 	`<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">` +
-		`<s:Body><u:%s xmlns:u=%s>%s</u:%s xmlns:u=%s></s:Body>` +
+	`<s:Body><u:%s xmlns:u=%s>%s</u:%s xmlns:u=%s></s:Body>` +
 	`</s:Envelope>`
 
 const SoapActionParamXML = `<%s>%s</%s>`
@@ -290,15 +189,15 @@ func (a *Action) createCallHttpRequest(actionArg *ActionArgument) (*http.Request
 	req.Header.Set("Content-Type", text_xml)
 	req.Header.Set("SOAPAction", action)
 
-	return req, nil;	
-}	
+	return req, nil
+}
 
 // store auth header for reuse
 var authHeader = ""
 
 // Call an action with argument if given
 func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
-	req, err := a.createCallHttpRequest(actionArg)	
+	req, err := a.createCallHttpRequest(actionArg)
 
 	if err != nil {
 		return nil, err
@@ -308,7 +207,7 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 	if authHeader != "" {
 		req.Header.Set("Authorization", authHeader)
 	}
-	
+
 	// first try call without auth header
 	resp, err := http.DefaultClient.Do(req)
 
@@ -318,8 +217,8 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 
 	wwwAuth := resp.Header.Get("WWW-Authenticate")
 	if resp.StatusCode == http.StatusUnauthorized {
-		resp.Body.Close()		// close now, since we make a new request below or fail
-		
+		resp.Body.Close() // close now, since we make a new request below or fail
+
 		if wwwAuth != "" && a.service.Device.root.Username != "" && a.service.Device.root.Password != "" {
 			// call failed, but we have a password so calculate header and try again
 			authHeader, err = a.getDigestAuthHeader(wwwAuth, a.service.Device.root.Username, a.service.Device.root.Password)
@@ -327,24 +226,24 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 				return nil, errors.New(fmt.Sprintf("%s: %s", a.Name, err.Error))
 			}
 
-			req, err = a.createCallHttpRequest(actionArg)	
+			req, err = a.createCallHttpRequest(actionArg)
 			if err != nil {
 				return nil, errors.New(fmt.Sprintf("%s: %s", a.Name, err.Error))
 			}
 
 			req.Header.Set("Authorization", authHeader)
-		
-			resp, err = http.DefaultClient.Do(req)	
+
+			resp, err = http.DefaultClient.Do(req)
 
 			if err != nil {
 				return nil, errors.New(fmt.Sprintf("%s: %s", a.Name, err.Error))
 			}
-			
+
 		} else {
 			return nil, errors.New(fmt.Sprintf("%s: Unauthorized, but no username and password given", a.Name))
 		}
 	}
-	
+
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
@@ -354,22 +253,22 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 			io.Copy(buf, resp.Body)
 			body := buf.String()
 			//fmt.Println(body)
-			
+
 			var soapEnv SoapEnvelope
 			err := xml.Unmarshal([]byte(body), &soapEnv)
 			if err != nil {
 				errMsg = fmt.Sprintf("error decoding SOAPFault: %s", err.Error())
 			} else {
 				soapFault := soapEnv.Body.Fault
-				
+
 				if soapFault.FaultString == "UPnPError" {
-					upe := soapFault.Detail.UpnpError;
-				
+					upe := soapFault.Detail.UpnpError
+
 					errMsg = fmt.Sprintf("SAOPFault: %s %d (%s)", soapFault.FaultString, upe.ErrorCode, upe.ErrorDescription)
 				} else {
 					errMsg = fmt.Sprintf("SAOPFault: %s", soapFault.FaultString)
 				}
-			}			
+			}
 		}
 		return nil, errors.New(fmt.Sprintf("%s: %s", a.Name, errMsg))
 	}
@@ -379,10 +278,10 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 
 func (a *Action) getDigestAuthHeader(wwwAuth string, username string, password string) (string, error) {
 	// parse www-auth header
-	if ! strings.HasPrefix(wwwAuth, "Digest ") {
-		return "", errors.New(fmt.Sprintf("WWW-Authentication header is not Digest: '%s'", wwwAuth)) 
+	if !strings.HasPrefix(wwwAuth, "Digest ") {
+		return "", errors.New(fmt.Sprintf("WWW-Authentication header is not Digest: '%s'", wwwAuth))
 	}
-	
+
 	s := wwwAuth[7:]
 	d := map[string]string{}
 	for _, kv := range strings.Split(s, ",") {
@@ -392,38 +291,37 @@ func (a *Action) getDigestAuthHeader(wwwAuth string, username string, password s
 		}
 		d[strings.Trim(parts[0], "\" ")] = strings.Trim(parts[1], "\" ")
 	}
-	
+
 	if d["algorithm"] == "" {
 		d["algorithm"] = "MD5"
 	} else if d["algorithm"] != "MD5" {
 		return "", errors.New(fmt.Sprintf("digest algorithm not supported: %s != MD5", d["algorithm"]))
 	}
-	
+
 	if d["qop"] != "auth" {
 		return "", errors.New(fmt.Sprintf("digest qop not supported: %s != auth", d["qop"]))
 	}
 
 	// calc h1 and h2
-    ha1 := fmt.Sprintf("%x", md5.Sum([]byte(username + ":" + d["realm"] + ":" + password)))
-    
-    ha2 := fmt.Sprintf("%x", md5.Sum([]byte("POST:" + a.service.ControlUrl)))
+	ha1 := fmt.Sprintf("%x", md5.Sum([]byte(username+":"+d["realm"]+":"+password)))
+
+	ha2 := fmt.Sprintf("%x", md5.Sum([]byte("POST:"+a.service.ControlUrl)))
 
 	cn := make([]byte, 8)
-    rand.Read(cn)
-    cnonce := fmt.Sprintf("%x", cn)
-    
-    nCounter := 1
-    nc:=fmt.Sprintf("%08x", nCounter)
+	rand.Read(cn)
+	cnonce := fmt.Sprintf("%x", cn)
+
+	nCounter := 1
+	nc := fmt.Sprintf("%08x", nCounter)
 
 	ds := strings.Join([]string{ha1, d["nonce"], nc, cnonce, d["qop"], ha2}, ":")
 	response := fmt.Sprintf("%x", md5.Sum([]byte(ds)))
-	
+
 	authHeader := fmt.Sprintf("Digest username=\"%s\", realm=\"%s\", nonce=\"%s\", uri=\"%s\", cnonce=\"%s\", nc=%s, qop=%s, response=\"%s\", algorithm=%s",
-								username, d["realm"], d["nonce"], a.service.ControlUrl, cnonce, nc, d["qop"], response, d["algorithm"])
-	
+		username, d["realm"], d["nonce"], a.service.ControlUrl, cnonce, nc, d["qop"], response, d["algorithm"])
+
 	return authHeader, nil
 }
-
 
 func (a *Action) parseSoapResponse(r io.Reader) (Result, error) {
 	res := make(Result)
@@ -491,45 +389,113 @@ func convertResult(val string, arg *Argument) (interface{}, error) {
 		return int64(res), nil
 	case "dateTime", "uuid":
 		// data types we don't convert yet
-		return val, nil		
+		return val, nil
 	default:
 		return nil, fmt.Errorf("unknown datatype: %s (%s)", arg.StateVariable.DataType, val)
 	}
 }
 
-// Load the services tree from an device.
-func LoadServices(baseurl string, username string, password string) (*Root, error) {
+// LoadServices loads the services tree from device
+func LoadServices(baseurl string, username string, password string) (*FritzBoxAPI, error) {
 
+	// disable certificate validation, since fritz.box uses self signed cert
 	if strings.HasPrefix(baseurl, "https://") {
-		// disable certificate validation, since fritz.box uses self signed cert
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
-	var root = &Root{
-		BaseUrl:  baseurl,
-		Username: username,
-		Password: password,
-	}
-
-	err := root.load()
+	//igddesc.xml
+	fritzAPI := &FritzBoxAPI{BaseUrl: baseurl, Username: username, Password: password}
+	err := fritzAPI.load("igddesc.xml")
 	if err != nil {
 		return nil, err
 	}
 
-	var rootTr64 = &Root{
-		BaseUrl:  baseurl,
-		Username: username,
-		Password: password,
-	}
-
-	err = rootTr64.loadTr64()
+	// tr64desc.xml
+	TR64 := &FritzBoxAPI{BaseUrl: baseurl, Username: username, Password: password}
+	err = TR64.load("tr64desc.xml")
 	if err != nil {
 		return nil, err
 	}
 
-	for k, v := range rootTr64.Services {
-		root.Services[k] = v
+	//merge tr64 services into api object
+	for k, v := range TR64.Services {
+		fritzAPI.Services[k] = v
 	}
 
-	return root, nil
+	return fritzAPI, nil
+}
+
+func (fritzBoxAPI *FritzBoxAPI) load(path string) error {
+
+	//HTTP GET
+	HTTPResponse, err := http.Get(fmt.Sprintf("%s/%s", fritzBoxAPI.BaseUrl, path))
+	if err != nil {
+		return err
+	}
+	defer HTTPResponse.Body.Close()
+
+	//decode body
+	XMLDecoder := xml.NewDecoder(HTTPResponse.Body)
+	err = XMLDecoder.Decode(fritzBoxAPI)
+	if err != nil {
+		return err
+	}
+
+	fritzBoxAPI.Services = make(map[string]*Service)
+	err = fritzBoxAPI.Device.fillServices(fritzBoxAPI)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (device *Device) fillServices(fritzBoxAPI *FritzBoxAPI) error {
+
+	device.root = fritzBoxAPI // Query UPNP variables from Fritz!Box devices.
+
+	for _, service := range device.Services {
+		service.Device = device
+
+		HTTPResponse, err := http.Get(fritzBoxAPI.BaseUrl + service.SCPDUrl)
+		if err != nil {
+			return err
+		}
+		defer HTTPResponse.Body.Close()
+
+		var scpd scpdRoot
+		dec := xml.NewDecoder(HTTPResponse.Body)
+		err = dec.Decode(&scpd)
+		if err != nil {
+			return err
+		}
+
+		service.StateVariables = scpd.StateVariables
+		service.Actions = make(map[string]*Action)
+		for _, action := range scpd.Actions {
+			service.Actions[action.Name] = action
+		}
+
+		for _, action := range service.Actions {
+			action.service = service
+			action.ArgumentMap = make(map[string]*Argument)
+
+			for _, argument := range action.Arguments {
+				for _, stateVariable := range service.StateVariables {
+					if argument.RelatedStateVariable == stateVariable.Name {
+						argument.StateVariable = stateVariable
+					}
+				}
+				action.ArgumentMap[argument.Name] = argument
+			}
+		}
+
+		fritzBoxAPI.Services[service.ServiceType] = service
+	}
+	for _, subDevice := range device.SubDevices {
+		err := subDevice.fillServices(fritzBoxAPI)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
