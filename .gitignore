@@ -1,5 +1,3 @@
-fritzbox_exporter
 .project
-vendor/*
 .vscode/launch.json
 .gitignore
