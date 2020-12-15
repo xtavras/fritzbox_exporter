@@ -5,11 +5,14 @@ import (
 	"crypto/md5"
 	"crypto/rand"
 	"crypto/tls"
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -118,6 +121,20 @@ type UpnpError struct {
 	ErrorDescription string `xml:"errorDescription"`
 }
 
+type actionArgument struct {
+	Name           string `json:"name"`
+	IsIndex        bool   `json:"isIndex"`
+	ProviderAction string `json:"providerAction"`
+	Value          string `json:"value"`
+}
+
+type collectEntry struct {
+	Service   string                 `json:"service"`
+	Action    string                 `json:"action"`
+	Arguments []*Argument            `json:"arguments"`
+	Result    map[string]interface{} `json:"result"`
+}
+
 var authHeader = ""
 var (
 	collect_errors = prometheus.NewCounter(prometheus.CounterOpts{
@@ -125,6 +142,90 @@ var (
 		Help: "Number of collection errors.",
 	})
 )
+
+// IsGetOnly Returns if the action seems to be a query for information.
+// This is determined by checking if the action has no input arguments and at least one output argument.
+func (a *Action) IsGetOnly() bool {
+	for _, a := range a.Arguments {
+		if a.Direction == "in" {
+			return false
+		}
+	}
+	return len(a.Arguments) > 0
+}
+
+func CollectAll(URL string, username string, password string, resultFile string) {
+
+	upnpExporter := Exporter{BaseURL: URL, Username: username, Password: password}
+
+	err := upnpExporter.LoadServices()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	jsonContent := []collectEntry{}
+
+	serviceKeys := []string{}
+	for serviceKey := range upnpExporter.Services {
+		serviceKeys = append(serviceKeys, serviceKey)
+	}
+	sort.Strings(serviceKeys)
+
+	for _, serviceKey := range serviceKeys {
+		service := upnpExporter.Services[serviceKey]
+		fmt.Printf("collecting service '%s' (Url: %s)...\n", serviceKey, service.ControlUrl)
+
+		actionKeys := []string{}
+		for actionKey := range service.Actions {
+			actionKeys = append(actionKeys, actionKey)
+		}
+		sort.Strings(actionKeys)
+
+		for _, actionKey := range actionKeys {
+			action := service.Actions[actionKey]
+
+			var result map[string]interface{}
+
+			if !action.IsGetOnly() {
+				result = make(map[string]interface{})
+				var errorResult = fmt.Sprintf("... not calling since arguments required or no output")
+				result["error"] = errorResult
+
+			} else {
+				result, err = upnpExporter.Call(action, nil)
+				if err != nil {
+					result = make(map[string]interface{})
+					var errorResult = fmt.Sprintf("FAILED:%s", err.Error())
+					result["error"] = errorResult
+				}
+			}
+
+			jsonContent = append(jsonContent, collectEntry{
+				Service:   serviceKey,
+				Action:    action.Name,
+				Arguments: action.Arguments,
+				Result:    result,
+			})
+
+		}
+	}
+
+	jsonString, err := json.MarshalIndent(jsonContent, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(jsonString))
+
+	if resultFile != "" {
+		err = ioutil.WriteFile(resultFile, jsonString, 0644)
+		if err != nil {
+			fmt.Printf("Failed writing JSON file '%s': %s\n", resultFile, err.Error())
+		}
+	}
+}
 
 // LoadServices loads the services tree from device
 func (exporter *Exporter) LoadServices() error {

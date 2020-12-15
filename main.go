@@ -14,6 +14,7 @@ import (
 
 	"github.com/aexel90/fritzbox_exporter/collector"
 	"github.com/aexel90/fritzbox_exporter/metric"
+	"github.com/aexel90/fritzbox_exporter/upnp"
 )
 
 var (
@@ -26,18 +27,28 @@ var (
 	flagMetricsLuaFile  = flag.String("metrics-lua", "", "The JSON file with the lua metric definitions.")
 	flagMetricsUpnpFile = flag.String("metrics-upnp", "", "The JSON file with the upnp metric definitions.")
 
-	flagTest    = flag.Bool("test", false, "test mode")
-	flagJSONOut = flag.Bool("json-out", false, "store metrics also to JSON file when running test")
+	flagTest    = flag.Bool("test", false, "test configured metrics")
+	flagCollect = flag.Bool("collect-upnp", false, "collect all upnp metrics")
+
+	flagResultFileLua     = flag.String("result-file_lua", "", "Store lua results into file")
+	flagResultFileUpnp    = flag.String("result-file-upnp", "", "Store upnp results into file")
+	flagResultFileUpnpAll = flag.String("result-file-upnp-all", "", "Store all upnp results into file")
 )
 
 func main() {
+
+	flag.Parse()
 
 	var metricsFileLua *metric.MetricsFile
 	var metricsFileUpnp *metric.MetricsFile
 	var luaCollector *collector.Collector
 	var upnpCollector *collector.Collector
 
-	flag.Parse()
+	// upnp collect mode
+	if *flagCollect {
+		upnp.CollectAll(*flagGatewayUpnpURL, *flagUsername, *flagPassword, *flagResultFileUpnpAll)
+		return
+	}
 
 	// flagGatewayLuaURL
 	u, err := url.Parse(*flagGatewayLuaURL)
@@ -76,21 +87,15 @@ func main() {
 
 	// test mode
 	if *flagTest {
-		var jsonFile string
 		if luaCollector != nil {
-			if *flagJSONOut {
-				jsonFile = "result_lua.json"
-			}
-			luaCollector.Test(jsonFile)
+			luaCollector.Test(*flagResultFileLua)
 		}
 		if upnpCollector != nil {
-			if *flagJSONOut {
-				jsonFile = "upnp_json.json"
-			}
-			upnpCollector.Test(jsonFile)
+			upnpCollector.Test(*flagResultFileUpnp)
 		}
 		return
 	}
+
 	// prometheus mode
 	if luaCollector != nil {
 		prometheus.MustRegister(luaCollector)
