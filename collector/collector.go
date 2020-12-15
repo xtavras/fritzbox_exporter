@@ -1,7 +1,9 @@
 package collector
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"regexp"
 	"strings"
 
@@ -91,7 +93,7 @@ func (collector *Collector) Collect(ch chan<- prometheus.Metric) {
 }
 
 //Test collector metrics
-func (collector *Collector) Test() {
+func (collector *Collector) Test(resultFile string) {
 
 	err := collector.collect()
 	if err != nil {
@@ -110,6 +112,18 @@ func (collector *Collector) Test() {
 		fmt.Println("Error: ", err)
 	}
 
+	if resultFile != "" {
+
+		jsonString, err := json.MarshalIndent(collector.metrics, "", "\t")
+		if err != nil {
+			fmt.Println("Error: ", err)
+		}
+
+		err = ioutil.WriteFile(resultFile, jsonString, 0644)
+		if err != nil {
+			fmt.Printf("Failed writing JSON file '%s': %s\n", resultFile, err.Error())
+		}
+	}
 }
 
 func (collector *Collector) printResult() error {

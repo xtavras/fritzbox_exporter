@@ -26,7 +26,8 @@ var (
 	flagMetricsLuaFile  = flag.String("metrics-lua", "", "The JSON file with the lua metric definitions.")
 	flagMetricsUpnpFile = flag.String("metrics-upnp", "", "The JSON file with the upnp metric definitions.")
 
-	flagTest = flag.Bool("test", false, "test mode")
+	flagTest    = flag.Bool("test", false, "test mode")
+	flagJSONOut = flag.Bool("json-out", false, "store metrics also to JSON file when running test")
 )
 
 func main() {
@@ -75,11 +76,18 @@ func main() {
 
 	// test mode
 	if *flagTest {
+		var jsonFile string
 		if luaCollector != nil {
-			luaCollector.Test()
+			if *flagJSONOut {
+				jsonFile = "result_lua.json"
+			}
+			luaCollector.Test(jsonFile)
 		}
 		if upnpCollector != nil {
-			upnpCollector.Test()
+			if *flagJSONOut {
+				jsonFile = "upnp_json.json"
+			}
+			upnpCollector.Test(jsonFile)
 		}
 		return
 	}
