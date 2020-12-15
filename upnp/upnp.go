@@ -207,7 +207,6 @@ func CollectAll(URL string, username string, password string, resultFile string)
 				Arguments: action.Arguments,
 				Result:    result,
 			})
-
 		}
 	}
 
