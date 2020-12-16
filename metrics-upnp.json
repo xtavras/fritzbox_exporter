@@ -5,62 +5,82 @@
 			"action": "GetTotalPacketsReceived",
 			"resultKey": "TotalPacketsReceived",
 			"promDesc": {
-				"fqName": "gateway_wan_packets_received",
-				"help": "packets received on gateway WAN interface",
+				"fqName": "gateway_wan_traffic",
+				"help": "traffic on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Received",
+					"unit": "Packets"
+				}	
 			},
-			"promType": "CounterValue"
+			"promType": "GaugeValue"
 		},{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
 			"action": "GetTotalPacketsSent",
 			"resultKey": "TotalPacketsSent",
 			"promDesc": {
-				"fqName": "gateway_wan_packets_sent",
-				"help": "packets sent on gateway WAN interface",
+				"fqName": "gateway_wan_traffic",
+				"help": "traffic on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Sent",
+					"unit": "Packets"
+				}	
 			},
-			"promType": "CounterValue"
+			"promType": "GaugeValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
 			"action": "GetAddonInfos",
 			"resultKey": "TotalBytesReceived",
 			"promDesc": {
-				"fqName": "gateway_wan_bytes_received",
-				"help": "bytes received on gateway WAN interface",
+				"fqName": "gateway_wan_traffic",
+				"help": "traffic on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Received",
+					"unit": "Bytes"
+				}	
 			},
-			"promType": "CounterValue"
+			"promType": "GaugeValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
 			"action": "GetAddonInfos",
 			"resultKey": "TotalBytesSent",
 			"promDesc": {
-				"fqName": "gateway_wan_bytes_sent",
-				"help": "bytes sent on gateway WAN interface",
+				"fqName": "gateway_wan_traffic",
+				"help": "traffic on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Sent",
+					"unit": "Bytes"
+				}	
 			},
-			"promType": "CounterValue"
+			"promType": "GaugeValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
 			"action": "GetAddonInfos",
 			"resultKey": "ByteSendRate",
 			"promDesc": {
-				"fqName": "gateway_wan_bytes_send_rate",
-				"help": "byte send rate on gateway WAN interface",
+				"fqName": "gateway_wan_traffic_rate",
+				"help": "traffic rate on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Sent",
+					"unit": "Bytes"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -69,11 +89,15 @@
 			"action": "GetAddonInfos",
 			"resultKey": "ByteReceiveRate",
 			"promDesc": {
-				"fqName": "gateway_wan_bytes_receive_rate",
-				"help": "byte receive rate on gateway WAN interface",
+				"fqName": "gateway_wan_traffic_rate",
+				"help": "traffic rate on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Received",
+					"unit": "Bytes"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -82,11 +106,14 @@
 			"action": "GetCommonLinkProperties",
 			"resultKey": "Layer1UpstreamMaxBitRate",
 			"promDesc": {
-				"fqName": "gateway_wan_layer1_upstream_max_bitrate",
-				"help": "Layer1 upstream max bitrate",
+				"fqName": "gateway_max_bitrate",
+				"help": "max bitrate on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Up"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -95,11 +122,14 @@
 			"action": "GetCommonLinkProperties",
 			"resultKey": "Layer1DownstreamMaxBitRate",
 			"promDesc": {
-				"fqName": "gateway_wan_layer1_downstream_max_bitrate",
-				"help": "Layer1 downstream max bitrate",
+				"fqName": "gateway_max_bitrate",
+				"help": "max bitrate on gateway WAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Down"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -207,11 +237,15 @@
 			"action": "GetStatistics",
 			"resultKey": "Stats.BytesSent",
 			"promDesc": {
-				"fqName": "gateway_lan_bytes_sent",
-				"help": "bytes sent on gateway LAN interface",
+				"fqName": "gateway_lan_bytes",
+				"help": "bytes on gateway LAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Sent",
+					"unit": "Bytes"
+				}
 			},
 			"promType": "CounterValue"
 		},
@@ -220,11 +254,15 @@
 			"action": "GetStatistics",
 			"resultKey": "Stats.BytesReceived",
 			"promDesc": {
-				"fqName": "gateway_lan_bytes_received",
-				"help": "bytes received on gateway LAN interface",
+				"fqName": "gateway_lan_bytes",
+				"help": "bytes on gateway LAN interface",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"direction" : "Received",
+					"unit": "Bytes"
+				}
 			},
 			"promType": "CounterValue"
 		},

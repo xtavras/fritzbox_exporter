@@ -403,6 +403,7 @@ func (exporter *Exporter) getActionResult(cachedResults map[string]map[string]in
 
 	// for calls with argument also add arguement name and value to key
 	if actionArg != nil {
+
 		key += "|" + actionArg.Name + "|" + fmt.Sprintf("%v", actionArg.Value)
 	}
 
@@ -418,13 +419,16 @@ func (exporter *Exporter) getActionResult(cachedResults map[string]map[string]in
 			return nil, fmt.Errorf("action %s not found in service %s", actionName, serviceType)
 		}
 
-		cacheEntry, err := exporter.call(action, actionArg)
+		var err error
+		cacheEntry, err = exporter.call(action, actionArg)
+
 		if err != nil {
 			return nil, err
 		}
 
 		cachedResults[key] = cacheEntry
 	}
+
 	return cacheEntry, nil
 }
 
