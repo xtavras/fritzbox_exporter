@@ -85,7 +85,7 @@
             "page": "ecoStat",
             "resultPath": "data.ramusage.series.0.0",
             "promDesc": {
-                "fqName": "gateway_data_energy_consumption_ram",
+                "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
                 "varLabels": [
                     "gateway"
@@ -100,7 +100,7 @@
             "page": "ecoStat",
             "resultPath": "data.ramusage.series.1.0",
             "promDesc": {
-                "fqName": "gateway_data_energy_consumption_ram",
+                "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
                 "varLabels": [
                     "gateway"
@@ -115,7 +115,7 @@
             "page": "ecoStat",
             "resultPath": "data.ramusage.series.2.0",
             "promDesc": {
-                "fqName": "gateway_data_energy_consumption_ram",
+                "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
                 "varLabels": [
                     "gateway"
