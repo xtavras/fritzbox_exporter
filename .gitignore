@@ -1,8 +1,7 @@
 .project
 .vscode/launch.json
 .gitignore
-result_lua.json
-result_upnp_all.json
-result_upnp.json
-result_upnp_all_backup.json
+result-lua.json
+result-upnp-collect.json
+result-upnp.json
 metrics-upnp.json.backup

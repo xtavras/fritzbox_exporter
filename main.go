@@ -21,18 +21,18 @@ var (
 	flagGatewayUpnpURL = flag.String("gateway-upnp-url", "http://fritz.box:49000", "The URL of the FRITZ!Box - UPNP")
 	flagGatewayLuaURL  = flag.String("gateway-lua-url", "http://fritz.box", "The URL of the FRITZ!Box - LUA")
 	flagUsername       = flag.String("username", "", "The user for the FRITZ!Box UPnP service")
-	flagPassword       = flag.String("password", "", "The password for the FRITZ!Box UPnP service")
+	flagPassword       = flag.String("password", "", "The password for the FRITZ!Box")
 	flagAddress        = flag.String("listen-address", "127.0.0.1:9042", "The address to listen on for HTTP requests.")
 
 	flagMetricsLuaFile  = flag.String("metrics-lua", "", "The JSON file with the lua metric definitions.")
 	flagMetricsUpnpFile = flag.String("metrics-upnp", "", "The JSON file with the upnp metric definitions.")
 
 	flagTest    = flag.Bool("test", false, "test configured metrics")
-	flagCollect = flag.Bool("collect-upnp", false, "collect all upnp metrics")
+	flagCollect = flag.Bool("collect-upnp", false, "If set ALL available upnp metrics will be collected")
 
-	flagResultFileLua     = flag.String("result-file_lua", "", "Store lua results into file")
-	flagResultFileUpnp    = flag.String("result-file-upnp", "", "Store upnp results into file")
-	flagResultFileUpnpAll = flag.String("result-file-upnp-all", "", "Store all upnp results into file")
+	flagResultFileLua     = flag.String("result-file-lua", "", "The JSON file where to store lua export results during test")
+	flagResultFileUpnp    = flag.String("result-file-upnp", "", "The JSON file where to store upnp export results during test")
+	flagResultFileUpnpAll = flag.String("result-file-upnp-all", "", "The JSON file where to store the result during collect")
 )
 
 func main() {
