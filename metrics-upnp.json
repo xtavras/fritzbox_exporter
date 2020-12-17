@@ -166,11 +166,30 @@
 			"action": "GetStatusInfo",
 			"resultKey": "Uptime",
 			"promDesc": {
-				"fqName": "gateway_wan_connection_uptime_seconds",
-				"help": "WAN connection uptime",
+				"fqName": "gateway_uptime_seconds",
+				"help": "uptime",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"service" : "WANIPConnection"
+				}
+			},
+			"promType": "GaugeValue"
+		},
+		{
+			"service": "urn:dslforum-org:service:DeviceInfo:1",
+			"action": "GetInfo",
+			"resultKey": "UpTime",
+			"promDesc": {
+				"fqName": "gateway_uptime_seconds",
+				"help": "uptime",
+				"varLabels": [
+					"gateway"
+				],
+				"fixedLabels": {
+					"service" : "Device"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -203,20 +222,6 @@
 				"fixedLabels": {
 					"frequency" : "5 GHz"
 				}
-			},
-			"promType": "GaugeValue"
-		},
-		{
-			"service": "urn:dslforum-org:service:DeviceInfo:1",
-			"action": "GetInfo",
-			"resultKey": "UpTime",
-			"promDesc": {
-				"fqName": "gateway_uptime_seconds",
-				"help": "gateway uptime",
-				"varLabels": [
-					"gateway",
-					"Description"
-				]
 			},
 			"promType": "GaugeValue"
 		},
