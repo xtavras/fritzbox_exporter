@@ -183,7 +183,10 @@
 				"help": "current WLAN connections",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"frequency" : "2.4 GHz"
+				}
 			},
 			"promType": "GaugeValue"
 		},
@@ -192,11 +195,14 @@
 			"action": "GetTotalAssociations",
 			"resultKey": "TotalAssociations",
 			"promDesc": {
-				"fqName": "gateway_wlan2_current_connections",
-				"help": "current WLAN2 connections",
+				"fqName": "gateway_wlan_current_connections",
+				"help": "current WLAN connections",
 				"varLabels": [
 					"gateway"
-				]
+				],
+				"fixedLabels": {
+					"frequency" : "5 GHz"
+				}
 			},
 			"promType": "GaugeValue"
 		},
