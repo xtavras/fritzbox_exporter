@@ -1,7 +1,6 @@
 .project
 .vscode/launch.json
-.gitignore
 result-lua.json
 result-upnp-collect.json
 result-upnp.json
-metrics-upnp.json.backup
+grafana/screenshot.jpg
