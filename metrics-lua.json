@@ -59,7 +59,7 @@
         },
         {
             "page": "ecoStat",
-            "resultPath": "data.cputemp.series.0.0",
+            "resultPath": "data.cputemp.series.0|@reverse.0",
             "promDesc": {
                 "fqName": "gateway_data_ecostat_cputemp",
                 "help": "cpu temperature from data.lua?page=ecoStat",
@@ -71,7 +71,7 @@
         },
         {
             "page": "ecoStat",
-            "resultPath": "data.cpuutil.series.0.0",
+            "resultPath": "data.cpuutil.series.0|@reverse.0",
             "promDesc": {
                 "fqName": "gateway_data_ecostat_cpuutil",
                 "help": "percentage of cpu utilization from data.lua?page=ecoStat",
@@ -83,7 +83,7 @@
         },
         {
             "page": "ecoStat",
-            "resultPath": "data.ramusage.series.0.0",
+            "resultPath": "data.ramusage.series.0|@reverse.0",
             "promDesc": {
                 "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
@@ -98,7 +98,7 @@
         },
         {
             "page": "ecoStat",
-            "resultPath": "data.ramusage.series.1.0",
+            "resultPath": "data.ramusage.series.1|@reverse.0",
             "promDesc": {
                 "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
@@ -113,7 +113,7 @@
         },
         {
             "page": "ecoStat",
-            "resultPath": "data.ramusage.series.2.0",
+            "resultPath": "data.ramusage.series.2|@reverse.0",
             "promDesc": {
                 "fqName": "gateway_data_ecostat_ramusage",
                 "help": "percentage of energy consumed from data.lua?page=ecoStat",
