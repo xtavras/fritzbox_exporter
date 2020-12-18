@@ -15,7 +15,7 @@
 					"unit": "Packets"
 				}	
 			},
-			"promType": "GaugeValue"
+			"promType": "CounterValue"
 		},{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
 			"action": "GetTotalPacketsSent",
@@ -31,7 +31,7 @@
 					"unit": "Packets"
 				}	
 			},
-			"promType": "GaugeValue"
+			"promType": "CounterValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
@@ -48,7 +48,7 @@
 					"unit": "Bytes"
 				}	
 			},
-			"promType": "GaugeValue"
+			"promType": "CounterValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
@@ -65,7 +65,7 @@
 					"unit": "Bytes"
 				}	
 			},
-			"promType": "GaugeValue"
+			"promType": "CounterValue"
 		},
 		{
 			"service": "urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1",
