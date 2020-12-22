@@ -107,10 +107,7 @@ func (collector *Collector) Test(resultFile string) {
 		fmt.Println("Error: ", err)
 	}
 
-	err = collector.printResult()
-	if err != nil {
-		fmt.Println("Error: ", err)
-	}
+	collector.printResult()
 
 	if resultFile != "" {
 
@@ -126,7 +123,7 @@ func (collector *Collector) Test(resultFile string) {
 	}
 }
 
-func (collector *Collector) printResult() error {
+func (collector *Collector) printResult() {
 
 	for _, m := range collector.metrics {
 		fmt.Printf("Metric: %v\n", m.PromDesc.FqName)
@@ -140,7 +137,6 @@ func (collector *Collector) printResult() error {
 			fmt.Printf("     - prom label values: %v\n", promResult.LabelValues)
 		}
 	}
-	return nil
 }
 
 func (collector *Collector) collect() error {
@@ -264,7 +260,7 @@ func getLabelValues(labelNames []string, result map[string]interface{}, gateway 
 		if labelname == "gateway" {
 			labelValue = gateway
 		} else {
-			labelValue = result[labelname].(string)
+			labelValue = fmt.Sprintf("%v", result[labelname])
 		}
 
 		renameLabel(&labelValue, labelRenames)
