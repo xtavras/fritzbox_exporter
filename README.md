@@ -48,19 +48,19 @@ Usage:
     
 ## Example execution
 
-Running within prometheus:
+### Running within prometheus:
 
     $GOPATH/bin/fritzbox_exporter -username <username> -password <password> -metrics-upnp $GOPATH/bin/metrics-upnp.json -metrics-lua $GOPATH/bin/metrics-lua.json
     
-Test exporter with upnp metrics and result file storage:
+### Test exporter with upnp metrics and result file storage:
 
     $GOPATH/bin/fritzbox_exporter -username <username> -password <password> -test -metrics-upnp $GOPATH/bin/metrics-upnp.json -result-file-upnp $GOPATH/bin/result-upnp.json
 
-Test exporter with lua metrics and result file storage:
+### Test exporter with lua metrics and result file storage:
 
     $GOPATH/bin/fritzbox_exporter -username <username> -password <password> -test -metrics-lua $GOPATH/bin/metrics-lua.json -result-file-lua $GOPATH/bin/result-lua.json
 
-Print all available upnp metrics and its results
+### Print all available upnp metrics and its results
 
     $GOPATH/bin/fritzbox_exporter -username <username> -password <password> -collect-upnp -result-file-upnp-all $GOPATH/bin/result-upnp-collect.json
 
@@ -69,3 +69,5 @@ Print all available upnp metrics and its results
 The dashboard is published here [Grafana](https://grafana.com/grafana/dashboards/13377).
 
 Dashboard ID is 13377.
+
+![Grafana](https://raw.githubusercontent.com/aexel90/fritzbox_exporter/master/grafana/screenshot.jpg)
