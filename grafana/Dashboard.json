@@ -20,7 +20,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "7.3.5"
+      "version": "7.3.6"
     },
     {
       "type": "panel",
@@ -110,7 +110,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "expr": "gateway_device_modelname",
@@ -186,7 +186,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -297,7 +297,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -401,7 +401,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -523,7 +523,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -635,7 +635,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -758,7 +758,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -843,12 +843,12 @@
           "calcs": [
             "last"
           ],
-          "fields": "/^gateway_wlan_current_connections\\{exporter_name_yml=\"fritz_exporter\", frequency=\"2\\.4 GHz\", gateway=\"fritz.box\", instance=\"localhost:9042\", job=\"prometheus\"\\}$/",
+          "fields": "/^gateway_wlan_current_connections\\{frequency=\"2\\.4 GHz\", gateway=\"fritz.box\", instance=\"localhost:9042\", job=\"fritz_exporter\"\\}$/",
           "values": false
         },
         "textMode": "value"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "expr": "gateway_wlan_current_connections{frequency=\"2.4 GHz\"}",
@@ -900,12 +900,12 @@
           "calcs": [
             "last"
           ],
-          "fields": "/^gateway_wlan_current_connections\\{exporter_name_yml=\"fritz_exporter\", frequency=\"5 GHz\", gateway=\"fritz\\.box\", instance=\"localhost:9042\", job=\"prometheus\"\\}$/",
+          "fields": "/^gateway_wlan_current_connections\\{frequency=\"5 GHz\", gateway=\"fritz\\.box\", instance=\"localhost:9042\", job=\"fritz_exporter\"\\}$/",
           "values": false
         },
         "textMode": "value"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "expr": "gateway_wlan_current_connections{frequency=\"5 GHz\"}",
@@ -995,7 +995,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1100,7 +1100,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1182,7 +1182,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1280,7 +1280,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1401,7 +1401,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "dsType": "prometheus",
@@ -1598,7 +1598,7 @@
           }
         ]
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "targets": [
         {
           "expr": "gateway_host_active",
@@ -1702,7 +1702,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1921,7 +1921,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2164,7 +2164,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "7.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2232,6 +2232,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:110",
           "format": "decbytes",
           "label": null,
           "logBase": 1,
@@ -2240,6 +2241,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:111",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2262,7 +2264,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -2293,5 +2295,5 @@
   "timezone": "",
   "title": "FRITZ!Box Status",
   "uid": "1",
-  "version": 20
+  "version": 3
 }
