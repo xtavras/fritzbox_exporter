@@ -80,7 +80,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "dark-blue",
                 "value": null
               }
             ]
@@ -200,6 +200,7 @@
               "type": "time"
             }
           ],
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "measurement": "fritzbox_value",
@@ -310,6 +311,7 @@
               "type": "time"
             }
           ],
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "measurement": "fritzbox_value",
@@ -725,7 +727,7 @@
                 "value": 1
               },
               {
-                "color": "blue",
+                "color": "dark-blue",
                 "value": 1
               }
             ]
@@ -751,7 +753,7 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -771,6 +773,7 @@
               "type": "time"
             }
           ],
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "measurement": "fritzbox_value",
@@ -962,7 +965,7 @@
                 "value": 1
               },
               {
-                "color": "#1f78c1",
+                "color": "dark-blue",
                 "value": 1
               }
             ]
@@ -988,7 +991,7 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -1008,6 +1011,7 @@
               "type": "time"
             }
           ],
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "measurement": "fritzbox_value",
@@ -2295,5 +2299,5 @@
   "timezone": "",
   "title": "FRITZ!Box Status",
   "uid": "1",
-  "version": 3
+  "version": 5
 }
