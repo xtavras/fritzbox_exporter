@@ -2016,7 +2016,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:84",
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -2025,7 +2024,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:85",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2155,7 +2153,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:110",
           "format": "decbytes",
           "label": null,
           "logBase": 1,
@@ -2164,7 +2161,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:111",
           "format": "short",
           "label": null,
           "logBase": 1,
