@@ -1397,7 +1397,7 @@
           ],
           "groupByTags": [],
           "interval": "",
-          "legendFormat": "Upstream",
+          "legendFormat": "Max. Upstream",
           "measurement": "fritzbox_value",
           "orderByTime": "ASC",
           "policy": "default",
@@ -1452,6 +1452,7 @@
             }
           ],
           "groupByTags": [],
+          "hide": false,
           "interval": "",
           "legendFormat": "Upload",
           "measurement": "fritzbox_value",
@@ -1506,15 +1507,17 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:85",
           "decimals": null,
           "format": "bps",
           "label": "",
           "logBase": 1,
-          "max": "6000000",
+          "max": "10000000",
           "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:86",
           "format": "short",
           "logBase": 1,
           "max": null,
@@ -2016,6 +2019,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:84",
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -2024,6 +2028,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:85",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2153,6 +2158,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:110",
           "format": "decbytes",
           "label": null,
           "logBase": 1,
@@ -2161,6 +2167,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:111",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2183,7 +2190,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -2214,5 +2221,5 @@
   "timezone": "",
   "title": "FRITZ!Box Status",
   "uid": "1",
-  "version": 8
+  "version": 11
 }
