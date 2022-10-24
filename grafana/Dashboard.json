@@ -1,4 +1,53 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.2.1"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph (old)",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -26,14 +75,14 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13377,
   "graphTooltip": 2,
-  "id": 6,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -78,7 +127,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_device_modelname",
           "format": "table",
@@ -95,7 +144,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -158,7 +207,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_uptime_seconds{service=\"Device\"}",
@@ -209,7 +258,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -275,7 +324,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_uptime_seconds{service=\"WANIPConnection\"}",
@@ -329,7 +378,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fill": 1,
@@ -374,7 +423,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_data_ecostat_cputemp",
           "format": "time_series",
@@ -417,7 +466,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -485,7 +534,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic_rate{direction=\"Received\"}*8",
@@ -536,7 +585,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -604,7 +653,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic_rate{direction=\"Sent\"}*8",
@@ -654,7 +703,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -730,7 +779,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_connection_status",
@@ -780,7 +829,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -828,7 +877,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_wlan_current_connections{frequency=\"2.4 GHz\"}",
           "interval": "",
@@ -842,7 +891,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -890,7 +939,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_wlan_current_connections{frequency=\"5 GHz\"}",
           "instant": false,
@@ -905,7 +954,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -981,7 +1030,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_layer1_link_status",
@@ -1031,7 +1080,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1093,7 +1142,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic{direction=\"Received\", unit=\"Bytes\"}",
@@ -1151,7 +1200,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "editable": true,
       "fill": 1,
@@ -1199,7 +1248,7 @@
           "alias": "downstream",
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_max_bitrate{direction=\"Down\"}",
@@ -1259,7 +1308,7 @@
           "alias": "upstream",
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic_rate{direction=\"Received\"}*8",
@@ -1366,7 +1415,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "editable": true,
       "fill": 1,
@@ -1414,7 +1463,7 @@
           "alias": "downstream max",
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_max_bitrate{direction=\"Up\"}",
@@ -1474,7 +1523,7 @@
           "alias": "upstream max",
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic_rate{direction=\"Sent\"}*8",
@@ -1573,7 +1622,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1636,7 +1685,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "gateway_wan_traffic{direction=\"Sent\", unit=\"Bytes\"}",
@@ -1680,7 +1729,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1837,7 +1886,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_host_active",
           "format": "table",
@@ -1894,7 +1943,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "decimals": 0,
       "fill": 1,
@@ -1937,7 +1986,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_data_ecostat_cpuutil",
           "interval": "",
@@ -1947,7 +1996,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_data_ecostat_ramusage",
           "interval": "",
@@ -1992,7 +2041,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fill": 1,
       "fillGradient": 1,
@@ -2034,7 +2083,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "gateway_data_energy_consumption",
           "interval": "",
@@ -2082,7 +2131,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "woSee8Zgk"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2132,7 +2181,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "woSee8Zgk"
+            "uid": "${DS_PROMETHEUS}"
           },
           "dsType": "prometheus",
           "expr": "increase(gateway_wan_traffic{direction=\"Received\", unit=\"Bytes\"}[$__interval])",
