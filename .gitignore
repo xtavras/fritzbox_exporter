@@ -3,3 +3,4 @@
 result-lua.json
 result-upnp-collect.json
 result-upnp.json
+.env
