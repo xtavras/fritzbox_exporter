@@ -1,20 +1,15 @@
-version: '3.4'
-
 services:
   fritzbox_exporter:
     image: fritzbox_exporter
     build:
       context: .
       dockerfile: ./Dockerfile
-    restart: unless-stopped
+    restart: on-failure:2
     container_name: fritzbox_exporter
-    network_mode: "host" 
     ports:
       - 9042:9042
+    volumes:
+      - ./metrics-upnp.json:/metrics-upnp.json
+      - ./metrics-lua.json:/metrics-lua.json
     env_file:
       - .env
-    logging:
-        driver: "json-file"
-        options:
-            max-file: "3"
-            max-size: 10m
