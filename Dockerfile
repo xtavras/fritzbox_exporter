@@ -6,9 +6,15 @@ RUN go mod download
 COPY . .
 RUN go build -o /fritzbox_exporter
 
+
 FROM alpine:latest
-WORKDIR /
-COPY --from=build /fritzbox_exporter /fritzbox_exporter
+RUN apk add --no-cache ca-certificates
+
+WORKDIR /app
+
+COPY --from=build /fritzbox_exporter /app/
+COPY metrics-upnp.json metrics-lua.json /app/
+
 EXPOSE 9042
 
-ENTRYPOINT [ "sh", "-c", "/fritzbox_exporter -username ${USERNAME} -password ${PASSWORD} -gateway-lua-url ${GATEWAY_URL_LUA} -gateway-upnp-url ${GATEWAY_URL_UPNP} -listen-address ${LISTEN_ADDRESS} -metrics-upnp metrics-upnp.json -metrics-lua metrics-lua.json" ]
+ENTRYPOINT [ "sh", "-c", "/app/fritzbox_exporter -username ${USERNAME} -password ${PASSWORD} -gateway-lua-url ${GATEWAY_URL_LUA} -gateway-upnp-url ${GATEWAY_URL_UPNP} -listen-address ${LISTEN_ADDRESS} -metrics-upnp /app/metrics-upnp.json -metrics-lua /app/metrics-lua.json" ]
